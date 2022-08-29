@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface CounterState {
-  count: number;
+  value: number;
 }
 
 const initialState: CounterState = {
-  count: 666,
+  value: 666,
 };
 
 const counterSlice = createSlice({
@@ -14,16 +14,16 @@ const counterSlice = createSlice({
   reducers: {
     //Immers fixar så vi inte pillar i ett imutable state. Detta sker i bakgrunden.
     increment: (state) => {
-      state.count += 1;
+      state.value += 1;
     },
     decrement: (state) => {
-      state.count -= 1;
+      state.value -= 1;
     },
     reset: (state) => {
-      state.count = 0;
+      state.value = 0;
     },
     addAmount: (state, action: PayloadAction<number>) => {
-      state.count += action.payload;
+      state.value += action.payload;
     },
   },
 });

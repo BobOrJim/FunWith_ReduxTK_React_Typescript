@@ -1,34 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import "./App.css";
+import { useAppDispatch, useAppSelector } from "./app/hooks"; //detta är objekt jag kan använda actiosn eller selectros på
+import { increment, decrement, reset, addAmount } from "./features/counter/counterSlice"; //Detta är mina actions
 
 function App() {
-  const [count, setCount] = useState(0)
+  const count = useAppSelector((state) => state.counter.value); //om denna select funktion, används på många ställen, skall den göras global och exporteras från tex counterSlice
+
+  const [amountToAdd, setAmountToAdd] = useState(0);
+  const dispatch = useAppDispatch();
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+    <>
+      <p>count is {count}</p>
+      <button
+        onClick={() => {
+          dispatch(increment());
+        }}
+      >
+        inc
+      </button>
+      <button
+        onClick={() => {
+          dispatch(decrement());
+        }}
+      >
+        dec
+      </button>
+      <button
+        onClick={() => {
+          dispatch(reset());
+        }}
+      >
+        reset
+      </button>
+      <br></br>
+      Amount to add:
+      <input
+        type="number"
+        onChange={(e) => {
+          let valueToAdd: number = parseInt(e.target.value);
+          setAmountToAdd(valueToAdd);
+        }}
+      />
+      <button
+        onClick={() => {
+          dispatch(addAmount(amountToAdd));
+        }}
+      >
+        add amount
+      </button>
+    </>
+  );
 }
 
-export default App
+export default App;
